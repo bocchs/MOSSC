@@ -79,21 +79,6 @@ def denoise_MST(img, T_edge, int_min_count, num_ints=1):
     return img_denoised
 
 
-def denoise_help(frame, T_edge=46, num_ints=1):
-    frame_denoised = denoise_MST(frame_denoised, T_edge, num_ints=num_ints)
-    if frame_denoised is None:
-        return None, None, None
-    else:
-        frame_denoised_counts = int(frame_denoised.sum())
-        if frame_denoised_counts <= 1:
-            return None, None, None
-        # get centroid, diameter, and number of photons in each interaction
-        centroids_pix, diams_pix, ints_num_photons = pred_ints_gmm(frame_denoised, num_ints=num_ints, s=3.7)
-        centroid = centroids_pix[0]
-        diam = diams_pix[0]
-        return centroids_pix, diams_pix, ints_num_photons
-
-
 # GMM-Loc
 def pred_ints_gmm(frame, num_ints, s):
     pix = np.argwhere(frame) # n x 2
